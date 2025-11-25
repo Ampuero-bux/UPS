@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCI</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 500px;
+    margin: auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  }
+
+  h2 {
+    text-align: center;
+    color: #333333;
+  }
+
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #555555;
+  }
+
+  input, button, textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+  }
+
+  button {
+    background-color: #6fc46f;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s ease;
+  }
+
+  button:hover {
+    background-color: #34495e;
+  }
+
+  textarea {
+    resize: none;
+  }
+
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #28a745;
+    color: #ffffff;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    font-weight: bold;
+    z-index: 1000;
+    text-align: center;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>VCI</h2>
+
+  <label for="txtInput">NUMERO VCI:</label>
+  <input type="number" id="txtInput" placeholder="Ingresa un número">
+
+  <button id="btnGenerar">Generar Host y URL</button>
+
+  <label for="txtHost">CMD:</label>
+  <textarea id="txtHost" rows="2" readonly></textarea>
+
+  <label for="txtUrl">URL:</label>
+  <textarea id="txtUrl" rows="2" readonly></textarea>
+
+  <button id="btnPing">Simular Ping</button>
+  <button id="btnCopiar" >Copiar URL</button>
+  <button id="btnRegresar">REGRESAR</button>
+</div>
+
+<div id="copyModal" class="modal">Texto copiado al portapapeles</div>
+
+<script>
+const txtInput = document.getElementById('txtInput');
+const txtHost = document.getElementById('txtHost');
+const txtUrl = document.getElementById('txtUrl');
+const modal = document.getElementById('copyModal');
+
+function showModal(text) {
+  modal.textContent = text;
+  modal.style.display = 'block';
+  setTimeout(() => { modal.style.display = 'none'; }, 2000);
+}
+
+// Generar Host y URL
+document.getElementById('btnGenerar').addEventListener('click', () => {
+  const num = txtInput.value;
+  if(num && !isNaN(num)){
+    txtHost.value = `ping vci-sie-${num}.sj.audi.prod.vwg`;
+    txtUrl.value = `http://vci-sie-${num}.sj.audi.prod.vwg:5001`;
+  } else {
+    showModal('Por favor ingresa un número válido.');
+  }
+});
+
+// Simular Ping
+document.getElementById('btnPing').addEventListener('click', () => {
+  const host = txtInput.value;
+  if(host){
+    // No se puede ejecutar ping real desde JS, simulamos salida
+    const output = `Simulando ping a: vci-sie-${host}.sj.audi.prod.vwg\nRespuesta simulada: 0ms`;
+    alert(output);
+  } else {
+    showModal('Ingresa un número para generar host.');
+  }
+});
+
+// Copiar URL
+document.getElementById('btnCopiar').addEventListener('click', () => {
+  if(txtUrl.value){
+    navigator.clipboard.writeText(txtUrl.value);
+    showModal('URL copiada al portapapeles');
+  } else {
+    showModal('No hay URL para copiar.');
+  }
+});
+
+// Botón de regresar
+document.getElementById('btnRegresar').addEventListener('click', () => {
+    window.location.href = '../index.html';  // ../ sube un nivel para llegar al index
+});
+
+// Limpiar inputs al cargar
+window.addEventListener('load', () => {
+  txtInput.value = '';
+  txtHost.value = '';
+  txtUrl.value = '';
+});
+</script>
+</body>
+</html>

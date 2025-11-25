@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grupos y Tags</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5; /* igual que index */
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  }
+
+  h2 {
+    text-align: center;
+    color: #333333;
+  }
+
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #555555;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+  }
+
+  /* Botones estilo index */
+  .nav-btn {
+    background-color: #6fc46f; /* azul index */
+    color: #ffffff; /* texto blanco */
+    border: none;
+    padding: 12px 20px;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 8px; /* borde redondeado */
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s ease;
+    width: 100%;
+  }
+
+  .nav-btn:hover {
+    background-color: #34495e; /* azul hover */
+  }
+
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #28a745; /* verde index */
+    color: #ffffff; /* texto blanco */
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    font-weight: bold;
+    z-index: 1000;
+    text-align: center;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>Grupos y Tags</h2>
+
+  <label for="groupInput">Buscar Grupo:</label>
+  <input type="text" id="groupInput" list="groupList" placeholder="Escribe para buscar...">
+  <datalist id="groupList"></datalist>
+  <button id="copyGroup" class="nav-btn">COPIAR GRUPO</button>
+
+  <label for="comboBox2">Tags:</label>
+  <select id="comboBox2">
+    <option>PIT-UPS-PROCESS</option>
+    <option>PIT-UPS-PLANNING</option>
+    <option>PIT-UPS-SYSTEM</option>
+    <option>PIT-UPS-MAINTENANCE</option>
+    <option>PIT-UPS-HARDWARE</option>
+    <option>PIT-NC-SYSTEM</option>
+    <option>PIT-ACRONIS-SYSTEM</option>
+    <option>PIT-LEGATO-SYSTEM</option>
+    <option>PIT-FAZIT-SYSTEM</option>
+    <option>PIT-ODIS-SYSTEM</option>
+    <option>PIT-MIRROR_SERVER-SYSTEM</option>
+    <option>PIT-SPOC-SYSTEM</option>
+    <option>PIT-VERSION_DOG-SYSTEM</option>
+    <option>PIT-CROSSTALKS-SYSTEM</option>
+  </select>
+  <button id="copyTag" class="nav-btn">COPIAR TAG</button>
+
+  <button id="btnRegresar" class="nav-btn">REGRESAR</button>
+</div>
+
+<div id="copyModal" class="modal">Texto copiado al portapapeles</div>
+
+<script>
+const originalGroups = [
+  "HW Center Support AUDI Mexico",
+  "IT MAINTENANCE Support AUDI Mexico",
+  "WORKPLACE SOLUTIONS CM Support AUDI Germany",
+  "Front Desk Support AUDI Mexico",
+  "KAP Back Desk Support AUDI Mexico",
+  "TI America Support AUDI Mexico",
+  "UHD Service Desk AUDI Mexico",
+  "KAP SHOPFLOOR Support AUDI",
+  "KAP PDC Advanced Support AUDI",
+  "KAP SHOPFLOOR Support AUDI",
+  "SUP INTERFLEX Support AUDI Mexico",
+  "Field Services Telecom Support AUDI Mexico",
+  "KAP LACK Support AUDI Mexico",
+  "SQL Support AUDI Mexico",
+  "Servers-Wintel Support AUDI Mexico",
+  "Oracle Support AUDI Mexico",
+  "Telecom-Cabling Support AUDI Mexico",
+  "Middleware Support AUDI Mexico",
+  "FACILITIES Support AUDI Mexico",
+  "KAP ASSEMBLY LIVE Support AUDI Mexico",
+  "Servers-Unix Support AUDI Mexico",
+  "FAZIT Support VW Group",
+  "Backup Support AUDI Mexico",
+  "KAP UPS Support AUDI Mexico",
+  "IVZ Control Center AUDI Ingolstadt",
+  "WAN Support AUDI Mexico",
+  "LAN Support AUDI Mexico",
+  "ICINGA Support AUDI",
+  "WLAN Support AUDI Mexico",
+  "Antivirus and Encryption Support VW Group",
+  "KAP LEGATO Advanced Support AUDI",
+  "Database Support AUDI Mexico",
+  "USER MANAGEMENT Support AUDI Mexico",
+  "EHDD 36565 Service Desk AUDI Germany",
+  "Server Control Center VW Group",
+  "TELECOM SECURITY Support AUDI Mexico",
+  "DMS Support AUDI Mexico",
+  "FASTEK",
+  "AD/DC Support VW Group",
+  "WORKPLACE SOLUTIONS CM Support AUDI Germany",
+  "SFIT SP+OC DevOps Support VW Group",
+  "SFIT SP+OC Advanced Support AUDI",
+  "WAN Cloud Support AUDI Mexico"
+];
+
+const groupInput = document.getElementById('groupInput');
+const groupList = document.getElementById('groupList');
+const modal = document.getElementById('copyModal');
+
+function showModal(text) {
+  modal.textContent = text;
+  modal.style.display = 'block';
+  setTimeout(() => {
+    modal.style.display = 'none';
+  }, 2000);
+}
+
+function clearGroupInput() {
+  groupInput.value = '';
+  groupList.innerHTML = '';
+}
+
+// Filtrar grupos al escribir
+groupInput.addEventListener('input', () => {
+  const val = groupInput.value.toLowerCase();
+  groupList.innerHTML = '';
+  const filtered = originalGroups.filter(g => g.toLowerCase().includes(val));
+  filtered.forEach(g => {
+    const option = document.createElement('option');
+    option.value = g;
+    groupList.appendChild(option);
+  });
+});
+
+// Copiar grupo
+document.getElementById('copyGroup').addEventListener('click', () => {
+  if(groupInput.value && originalGroups.includes(groupInput.value)){
+    navigator.clipboard.writeText(groupInput.value);
+    showModal(`Grupo copiado: ${groupInput.value}`);
+    clearGroupInput();
+  } else {
+    showModal('Por favor, selecciona un grupo válido.');
+    clearGroupInput();
+  }
+});
+
+// Copiar tag
+document.getElementById('copyTag').addEventListener('click', () => {
+  const comboBox2 = document.getElementById('comboBox2');
+  if(comboBox2.value){
+    navigator.clipboard.writeText(comboBox2.value);
+    showModal(`Tag copiado: ${comboBox2.value}`);
+    clearGroupInput();
+  } else {
+    showModal('Por favor, selecciona un tag.');
+    clearGroupInput();
+  }
+});
+
+// Botón de regresar
+document.getElementById('btnRegresar').addEventListener('click', () => {
+    window.location.href = '../index.html';  // ../ sube un nivel para llegar al index
+});
+
+// Limpiar buscador al cargar
+window.addEventListener('load', () => {
+  clearGroupInput();
+});
+</script>
+</body>
+</html>

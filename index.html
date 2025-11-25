@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="main.css">
+<title>UPS</title>
+
+</head>
+<body>
+
+<div class="container">
+
+  <!-- LEFT -->
+  <div class="left">
+  
+    <div class="nav-btn" id="btnAnalisisLogs">ANALISIS - LOGS</div>
+    <div class="nav-btn" id="btnGrupos">GUPOS & TAGS</div>
+    <div class="nav-btn" id="btnVci">VCI</div>
+    <div class="nav-btn" id="btnContactos">CONTACTOS</div>
+  </div>
+
+  <!-- MIDDLE -->
+  <div class="middle">
+
+    <div class="title">TEST FROZEN:</div>
+
+    <!-- combo2 arriba (Test Frozen) -->
+    <div style="margin-bottom:18px;">
+      <select id="combo2" style="width:100%; padding:10px; border-radius:4px;">
+        <option value="">-- Selecciona Test Frozen --</option>
+        <option>TEST FROZEN F7 - REPORTADA</option>
+        <option>TEST FROZEN F7-SIDIS - REPORTADA</option>
+        <option>TEST FROZEN F7 - MONTOREO</option>
+        <option>TEST FROZEN F7-SISDIS - MONITOREO</option>
+      </select>
+    </div>
+
+    <!-- Specialist / Area -->
+    <div class="row">
+      <label>Specialist / Area:</label>
+      <label style="color: black; font-weight: 700;">BACK DESK UPS</label> 
+    </div>
+
+    <!-- Origin/Source -->
+    <div class="row">
+      <label>Origin/Source:</label>
+      <select id="combo1">
+        <option value="">-- Seleccione --</option>
+        <option>infrastructure IT</option>
+        <option>System</option>
+        <option>Master Data Configuration</option>
+        <option>External Factor</option>
+        <option>Process o User</option>
+      </select>
+    </div>
+
+    <!-- Affectation -->
+    <div class="row" style="align-items:flex-start;">
+      <label>Affectation:</label>
+      <textarea id="text1" class="big" placeholder=""></textarea>
+    </div>
+
+    <!-- Solution -->
+    <div class="row" style="align-items:flex-start;">
+      <label>Solution:</label>
+      <textarea id="text2" class="big" placeholder=""></textarea>
+    </div>
+
+    <!-- Opciones -->
+    <div class="row">
+      <label>OPCIONES:</label>
+      <select id="combo4">
+        <option value="">-- Seleccione --</option>
+        <option>PASARLO SHC</option>
+        <option>PASARLO SHC 2</option>
+      </select>
+    </div>
+
+    <!-- Respuestas Rapidas -->
+    <div class="row">
+      <label>RESPUESTAS RAPIDAS:</label>
+      <select id="combo3">
+        <option value="">-- Seleccione --</option>
+        <option>LA ALERTA YA NO ESTA PRESENTE</option>
+        <option>ALERTA VALIDACION CCIT</option>
+        <option>F7 Y REINICIA SIDIS</option>
+        <option>F7 CONGELDA RESPONDE</option>
+        <option>F7 CONGELDA REINICIA SIDIS</option>
+        <option>IDG TERATRON</option>
+        <option>PPL RESTABLECIDOS</option>
+        <option>APLICACION SIDIS CERRADA</option>
+        <option>LOGIN DE INICIO UPS_PROMO</option>
+        <option>VCI LOGS</option>
+        <option>F7 CONGELADA REINICIA SIDIS CAMBIO PPL</option>
+      </select>
+    </div>
+
+  </div> <!-- ✔ cierre correcto de .middle -->
+
+  <!-- RIGHT -->
+  <div class="right">
+    
+    <div class="checkbox-row">
+      <input type="checkbox" id="chk1">
+      <label for="chk1" style="margin:0; font-weight:800;">REQUEST</label>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:12px; align-items:center;">
+      <div class="action-btn" id="btnCopiar">COPIAR</div>
+      <div class="action-btn ghost" id="btnLimpiar" style="background:#9fbfae; color:#063423;">LIMPIAR</div>
+    </div>
+
+  </div>
+
+</div> <!-- ✔ cierre correcto de .container -->
+
+<script src="main.js"></script>
+</body>
+</html>

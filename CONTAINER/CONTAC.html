@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contactos</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  }
+
+  h2 {
+    text-align: center;
+    color: #333333;
+  }
+
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #555555;
+  }
+
+  select, table {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    border-collapse: collapse;
+  }
+
+  table th, table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  table th {
+    background-color: #6fc46f;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  button {
+    background-color: #6fc46f;
+    color: #ffffff;
+    border: none;
+    padding: 12px 20px;
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  button:hover {
+    background-color: #34495e;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>Contactos</h2>
+
+  <label for="comboBox1">Selecciona Grupo:</label>
+  <select id="comboBox1">
+    <option value="">--Selecciona--</option>
+    <option value="UPS">UPS</option>
+    <option value="FAZIT">FAZIT</option>
+    <option value="LEGATO">LEGATO</option>
+    <option value="NAFS">NAFS</option>
+    <option value="Mantenimiento">Mantenimiento</option>
+    <option value="Mantenimiento carrocerias">Mantenimiento carrocerias</option>
+    <option value="UHD">UHD</option>
+    <option value="Redes internas-TELCO">Redes internas-TELCO</option>
+    <option value="GruPO DE PINTURA, REVISAN ALERTAS DE ECOemos">Grupo Pintura</option>
+    <option value="servidores /tarjeta de red">Servidores / Red</option>
+    <option value="Oracle">Oracle</option>
+    <option value="Cableado redes">Cableado redes</option>
+    <option value="Middleware">Middleware</option>
+    <option value="Linux">Linux</option>
+    <option value="Backup">Backup</option>
+    <option value="LAN Redes">LAN Redes</option>
+    <option value="WLAN Redes">WLAN Redes</option>
+    <option value="Network Security">Network Security</option>
+  </select>
+
+  <table id="contactTable">
+    <thead>
+      <tr>
+        <th>Teléfono</th>
+        <th>Sistema</th>
+        <th>Correo</th>
+        <th>Notas</th>
+        <th>Grupo</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <button id="btnRegresar">REGRESAR</button>
+</div>
+
+<script>
+const comboBox1 = document.getElementById('comboBox1');
+const tableBody = document.querySelector('#contactTable tbody');
+
+const data = {
+  "UPS": [
+    ["+52-276-1058998 +52-276-89-02716", "UPS", "alfredo3.garcia@audi.mx", "#", "Servers-Wintel Support AUDI Mexico"],
+    ["+52-276-1125262", "UPS", "roberto.higuera@audi.mx", "#", "Oracle Support AUDI Mexico"],
+    ["+52-2761148203", "UPS", "teresa.de.jesus.landeta.carmona@audi.mx", "#", "Servers-Wintel Support AUDI Mexico"],
+    ["+52-2761092648", "UPS", "mario.fuentes@audi.mx", "PRIO", "PRIO"],
+    ["+49 7132 981 55 60", "2nd Level Support  (SHOPFLOOR)", "kap-shopfloor-2ls@audi.de", "2 - NIVEL", "2nd Level Support  (SHOPFLOOR)"]
+  ],
+  "FAZIT": [
+    ["+52-2761092648", "FAZIT", "Fuentes Garcia Arevalo, Mario (M/G-A71) - mario.fuentes@audi.mx", "LOCALES", "FAZIT Support VW Group"],
+    ["+52-276-1058998", "FAZIT", "Garcia Dominguez, Alfredo (M/G-A71) - alfredo3.garcia@audi.mx", "LOCALES", "IVZ Control Center AUDI Ingolstadt"],
+    ["#", "FAZIT", "FAZIT AMS (alemania) audiinfazitams@audi.de", "ALEMANIA", "Middleware Support AUDI México"],
+    ["#", "FAZIT", "Cambios FAZIT(alemania) 33999@audi.de", "ALEMANIA", "Oracle Support AUDI México"]
+  ],
+  "LEGATO": [
+    ["2761051176", "LEGATO", "janet.ramos@audi.mx", "Montaje", "KAP LEGATO Advanced Support AUDI"],
+    ["2761066364", "LEGATO", "miguel.juarez@audi.mx", "Montaje", "Middleware Support AUDI Mexico"],
+    ["2761074688", "LEGATO", "alejandro.corte@audi.mx", "Carrocerias", "Oracle Support AUDI Mexico"],
+    ["#", "LEGATO", "#", "#", "Servers-Unix Support AUDI Mexico"],
+    ["#", "LEGATO", "#", "#", "Backup Support AUDI Mexico"],
+    ["#", "LEGATO", "#", "#", "HW Center Support AUDI Mexico"],
+    ["#", "LEGATO", "#", "#", "Servers-Wintel Support AUDI Mexico"]
+  ],
+  "NAFS": [
+    ["#", "NAFS", "janet.gonzales@audi.mx", "FINA FIS connection", "IT MAINTENANCE Support AUDI Mexico"],
+    ["#", "NAFS", "#", "A60 CWB (Q-Direct)", "IT MAINTENANCE Support AUDI Mexico"],
+    ["#", "NAFS", "#", "A62 CWB (Q-Direct)", "IT MAINTENANCE Support AUDI Mexico"],
+    ["#", "NAFS", "#", "A60 EDS Linie 1 (Q-Direct)", "IT MAINTENANCE Support AUDI Mexico"],
+    ["#", "NAFS", "mantto-montaje@audi.mx", "A60 EDS Linie 2 (Q-Direct)", "IT MAINTENANCE Support AUDI Mexico"],
+    ["#", "NAFS", "miguel.juarez@audi.mx", "A60 EDS Linie 3 (Q-Direct)", "IT MAINTENANCE Support AUDI Mexico"],
+    ["#", "NAFS", "miguel.dominguez@audi.mx", "A01 EDS Linie 1 (Q-Direct)", "IT MAINTENANCE Support AUDI Mexico"],
+    ["#", "NAFS", "mantto-montaje-igl@audi.mx", "A62 EDS Linie 1 (Q-Direct)", "IT MAINTENANCE Support AUDI Mexico"],
+    ["#", "NAFS", "alfredo.montano@thyssenkrupp-automotive.com", "", "Extern HAVM (ThyssenKrupp)"]
+  ],
+  "Mantenimiento": [
+    ["Ext 2229", "Mantenimiento Montaje", "mantto-montaje@audi.mx", "Mantenimiento Montaje", "IT MAINTENANCE Support AUDI Mexico"]
+  ],
+  "Mantenimiento carrocerias": [
+    ["Ext 2229", "Mantenimiento carrocerias", "mantto-carrocerias@audi.mx", "Mantenimiento carrocerias", "IT MAINTENANCE Support AUDI Mexico"]
+  ],
+  "UHD": [
+    ["#", "UHD", "AUDIUHD@audi.mx", "UHD", "UHD Service Desk AUDI Mexico"]
+  ],
+  "Redes internas-TELCO": [
+    ["#", "Redes internas-TELCO", "dl.dl-tsmx-tss-onsite-audi@t-systems.com", "Redes internas-TELCO", "Field Services Telecom Support AUDI Mexico"]
+  ],
+  "GruPO DE PINTURA, REVISAN ALERTAS DE ECOemos": [
+    ["#", "KAP LACK Support AUDI Mexico", "Daniel Alberto Romero- mantto-pintura@audi.mx", "GruPO DE PINTURA, REVISAN ALERTAS DE ECOemos", "KAP LACK Support AUDI Mexico"]
+  ],
+  "servidores /tarjeta de red": [
+    ["#", "Servers-Wintel Support AUDI Mexico", "DL-TSMX-Wintel-Audi01@t-systems.com", "servidores /tarjeta de red", "Servers-Wintel Support AUDI Mexico"]
+  ],
+  "Oracle": [
+    ["#", "Oracle Support AUDI Mexico", "DL-TSMX-DBA-AUDI-ORA@t-systems.com", "Oracle", "Oracle Support AUDI Mexico"]
+  ],
+  "Cableado redes": [
+    ["#", "Telecom-Cabling Support AUDI Mexico", "soporte.cableado@siisaglobal.com", "Cableado redes", "Telecom-Cabling Support AUDI Mexico"]
+  ],
+  "Middleware": [
+    ["#", "Middleware Support AUDI Mexico", "TSMX_Middleware_Audi@t-systems.com", "Middleware", "Middleware Support AUDI Mexico"]
+  ],
+  "Linux": [
+    ["#", "Servers-Unix Support AUDI Mexico", "DL-TSMX-DPO-LINUX@t-systems.com", "Linux", "Servers-Unix Support AUDI Mexico"]
+  ],
+  "Backup": [
+    ["#", "Backup Support AUDI Mexico", "DL.DL-TSMX-Backups-Audi@t-systems.com", "Backup", "Backup Support AUDI Mexico"]
+  ],
+  "LAN Redes": [
+    ["#", "LAN Support AUDI Mexico", "dl.dl-tsmx-tss-onsite-audi@t-systems.com", "LAN Redes", "LAN Support AUDI Mexico"]
+  ],
+  "WLAN Redes": [
+    ["#", "WLAN Support AUDI Mexico", "dl.dl-tsmx-tss-onsite-audi@t-systems.com", "WLAN Redes", "WLAN Support AUDI Mexico"]
+  ],
+  "Network Security": [
+    ["#", "TELECOM SECURITY Support AUDI Mexico", "DL-TSMX-TSS-SIC-LAN-AUDI@t-systems.com", "Network Security", "TELECOM SECURITY Support AUDI Mexico"]
+  ]
+};
+
+comboBox1.addEventListener('change', () => {
+  const group = comboBox1.value;
+  tableBody.innerHTML = ''; // Limpiar tabla
+  if(data[group]){
+    data[group].forEach(row => {
+      const tr = document.createElement('tr');
+      row.forEach(cell => {
+        const td = document.createElement('td');
+        td.textContent = cell;
+        tr.appendChild(td);
+      });
+      tableBody.appendChild(tr);
+    });
+  }
+});
+
+// Botón de regresar
+document.getElementById('btnRegresar').addEventListener('click', () => {
+    window.location.href = '../index.html';  // ../ sube un nivel para llegar al index
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<title>ANALISIS</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.nav-btn {
+    background-color: #6fc46f;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.nav-btn:hover {
+    background-color: #34495e;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+}
+
+.buttons-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;  /* Centra vertical */
+}
+
+#logArea {
+    flex: 1;
+    padding: 5px;
+    font-family: monospace;
+    font-size: 13px;
+    border: 2px solid #2c3e50;      /* MÁS GRUESO Y OSCURO */
+    border-radius: 6px;              /* LIGERAMENTE MÁS REDONDO */
+    min-height: 400px;
+    overflow-y: auto;
+    overflow-x: auto;
+    white-space: nowrap;
+
+    box-shadow: 0 0 20px #2c3e50;  /* SOMBRA SUAVE */
+}
+
+.line {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0 0 2px 0;
+    line-height: 1.2em;
+}
+
+.tag, .leyendaPPL {
+    display: inline-block;
+    background-color: yellow;
+    color: black;
+    font-weight: bold;
+    padding: 0 4px;
+    margin-left: 5px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    flex-shrink: 0;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.45);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px 30px;
+    font-size: 18px;
+    border-radius: 10px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+</style>
+</head>
+<body>
+
+
+<div class="container">
+    <div id="logArea" contenteditable="true" placeholder="Pega aquí los logs..."></div>
+
+    <div class="buttons-right">
+        <div class="nav-btn" id="btnColor">COLOREAR</div>
+        <br>
+        <div class="nav-btn" id="btnCapture">CAPTURAR IMAGEN</div>
+        <div class="nav-btn" id="btnDowload">DESCARGAR IMAGEN</div>
+        <br>
+        <div class="nav-btn" id="btnClear">LIMPIAR</div>
+        <div class="nav-btn" id="btnIndex">REGRESAR</div>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div id="modalCopy" class="modal">
+    <div class="modal-content">
+        <p>📋 Imagen copiada al portapapeles</p>
+    </div>
+</div>
+
+
+<script>
+const logArea = document.getElementById("logArea");
+
+// REGRESAR
+document.getElementById("btnIndex").addEventListener("click", () => {
+    window.location.href = "../index.html";
+});
+
+// OBJETO DE IP → PPL (ejemplo, agrega todas tus IP)
+const ipPplMap = {
+    "10.131.128.139":"PPL001",
+"10.131.128.140":"PPL002",
+"10.131.128.141":"PPL003",
+"10.131.243.186":"PPL020",
+"10.131.242.212":"PPL021",
+"0":"PPL022",
+"10.131.242.70":"PPL028",
+"10.131.243.242":"PPL029",
+"0":"PPL050",
+"10.131.130.114":"PPL070",
+"10.131.130.115":"PPL071",
+"10.131.97.76":"PPL072",
+"10.131.97.77":"PPL073",
+"10.131.97.81":"PPL074",
+"10.131.97.82":"PPL075",
+"25.225.65.231":"PPL110",
+"25.225.66.231":"PPL111",
+"25.225.67.231":"PPL112",
+"10.131.128.184":"PPL130",
+"10.131.128.185":"PPL131",
+"10.131.128.186":"PPL132",
+"25.225.68.231":"PPL150",
+"25.225.69.231":"PPL151",
+"25.225.70.231":"PPL152",
+" 10.131.128.199":"PPL170",
+"10.131.128.200":"PPL171",
+"10.131.128.201":"PPL172",
+"10.131.128.205":"PPL190",
+"10.131.128.206":"PPL191",
+"10.131.128.207":"PPL192",
+"10.131.128.208":"PPL193",
+"10.131.128.209":"PPL194",
+"10.131.128.210":"PPL195",
+"25.225.71.231":"PPL210",
+" 25.225.73.231":"PPL211",
+"10.131.242.233":"PPL220",
+"10.131.242.218":"PPL221",
+"10.131.242.218":"PPL221",
+"10.131.242.226":"PPL222",
+"10.131.242.234":"PPL223",
+"10.131.242.84":"PPL224",
+"10.131.242.172":"PPL225",
+"10.131.243.5":"PPL226",
+"10.131.242.116":"PPL227",
+"0":"PPL228",
+"0":"PPL229",
+"0":"PPL230",
+"0":"PPL231",
+"0":"PPL232",
+"0":"PPL233",
+"10.131.176.90":"PPL240",
+"10.131.176.91":"PPL241",
+"10.131.176.92":"PPL242",
+"10.131.176.177":"PPL243",
+"0":"PPL244",
+"10.131.97.72":"PPL245",
+"10.131.97.73":"PPL246",
+"10.131.243.32":"PPL250",
+"10.131.243.233":"PPL251",
+"10.131.242.207":"PPL252",
+"10.131.242.77":"PPL253",
+"10.131.243.11":"PPL254",
+"10.131.243.213":"PPL255",
+"10.131.242.247":"PPL256",
+"10.131.243.224":"PPL257",
+"10.131.243.204":"PPL258",
+"10.131.243.203":"PPL259",
+"0":"PPL260",
+"10.131.243.216":"PPL261",
+"10.131.243.153":"PPL262",
+"10.131.242.210":"PPL263",
+"10.131.243.60":"PPL264",
+"10.131.245.155":"PPL265",
+"0":"PPL266",
+"0":"PPL267",
+"10.131.242.197":"PPL268",
+"10.131.243.160":"PPL269",
+"10.131.243.170":"PPL270",
+"10.131.242.246":"PPL271",
+"0":"PPL272",
+"0":"PPL275",
+"0":"PPL276",
+"0":"PPL278",
+"0":"PPL279",
+"10.131.130.116":"PPL280",
+"10.131.168.24":"PPL290",
+"10.131.168.25":"PPL291",
+"10.131.168.26":"PPL292",
+"25.227.134.231":"PPL300",
+"25.227.128.231":"PPL301",
+" 10.131.176.101":"PPL302",
+"0":"PPL306",
+"10.131.243.191":"PPL309",
+"0":"PPL310",
+"10.131.243.240":"PPL314",
+"25.225.92.231":"PPL330",
+"25.225.92.239":"PPL331",
+"0":"PPL333",
+"0":"PPL334",
+"0":"PPL335",
+"10.131.242.57":"PPL370",
+"10.131.242.254":"PPL371",
+"10.131.243.29":"PPL372",
+"10.131.242.180":"PPL373",
+"10.131.243.118":"PPL374",
+"10.131.243.111":"PPL375",
+"10.131.242.241":"PPL376",
+"10.131.243.179":"PPL377",
+"10.131.243.234":"PPL378",
+"0":"PPL379",
+"10.131.243.19":"PPL380",
+"0":"PPL381",
+"0":"PPL382",
+"IP  10.131.243.19":"PPL383",
+"0":"PPL384",
+"10.131.242.165":"PPL385",
+"10.131.243.162":"PPL386",
+"10.131.242.47":"PPL387",
+"10.131.243.218":"PPL388",
+"0":"PPL389",
+"10.131.242.170":"PPL390",
+"0":"PPL391",
+"0":"PPL392",
+"0":"PPL393",
+"0":"PPL394",
+"0":"PPL395",
+"0":"PPL396",
+"0":"PPL397",
+"10.131.243.91":"PPL398",
+"10.131.97.40":"PPL420",
+"10.131.97.41":"PPL421",
+"10.131.97.42":"PPL422",
+"10.131.97.43":"PPL423",
+"10.131.97.44":"PPL424",
+"10.131.97.45":"PPL425",
+"10.131.97.46":"PPL426",
+"10.131.97.78":"PPL427",
+"10.131.97.79":"PPL428",
+"0":"PPL429",
+"25.225.54.63":"PPL440",
+"25.225.80.63":"PPL441",
+"25.225.57.63":"PPL442",
+"25.225.97.63":"PPL443",
+"25.225.82.63":"PPL444",
+"10.131.97.70":"PPL450",
+"10.131.97.83":"PPL451",
+"10.131.97.84":"PPL452",
+"10.131.97.96":"PPL452",
+"10.131.97.25":"PPL460",
+"10.131.97.26":"PPL461",
+"10.131.97.27":"PPL462",
+"10.131.97.28":"PPL463",
+"10.131.97.29":"PPL464",
+"10.131.97.30":"PPL465",
+"10.131.97.31":"PPL466",
+"10.131.97.80":"PPL467",
+"0":"PPL468",
+"0":"PPL469",
+"10.131.97.67":"PPL470",
+"10.131.97.69":"PPL618",
+"10.131.97.32":"PPL480",
+"10.131.97.33":"PPL481",
+"10.131.97.35":"PPL483",
+"10.131.97.47":"PPL484",
+"10.131.97.48":"PPL485",
+"10.131.97.49":"PPL486",
+"10.131.97.50":"PPL487",
+"10.131.97.51":"PPL488",
+"10.131.97.52":"PPL489",
+"10.131.97.53":"PPL490",
+"10.131.97.54":"PPL491",
+"10.131.97.55":"PPL492",
+"10.131.97.56":"PPL493",
+"10.131.97.57":"PPL494",
+"10.131.97.58":"PPL495",
+"10.131.97.59":"PPL496",
+"10.131.97.60":"PPL497",
+"10.131.97.34":"PPL498",
+"10.131.97.34":"PPL498",
+"10.131.97.35":"PPL499",
+"10.131.97.36":"PPL505",
+"10.131.97.37":"PPL506",
+"10.131.97.38":"PPL507",
+"10.131.97.39":"PPL508",
+"10.131.97.61":"PPL610",
+"10.131.97.62":"PPL611",
+"10.131.97.63":"PPL612",
+"10.131.97.64":"PPL613",
+"10.131.97.65":"PPL614",
+"10.131.97.66":"PPL615",
+"0":"PPL616",
+"10.131.97.68":"ppl617",
+"10.131.97.68":"PPL617",
+"0":"PPL618",
+"10.131.97.74":"PPL619",
+"10.131.97.75":"PPL620",
+"10.131.97.89":"PPL621",
+"10.131.97.102":"PPL716",
+"0":"PPL719",
+"0":"PPL720",
+"0":"PPL721",
+"0":"PPL722",
+"0":"PPL800",
+"0":"PPL801",
+"0":"PPL802",
+"0":"PPL803",
+"0":"PPL804",
+"10.131.243.227":"PPL805"
+    // agrega todas las demás IP aquí
+};
+
+// FUNCION PARA DETECTAR CLIENT IP Y AGREGAR LEYENDA
+function agregarPpl(line){
+    const match = line.match(/client ip:\s*([\d.]+):\d+/);
+    if(match){
+        const ip = match[1];
+        const ppl = ipPplMap[ip];
+        if(ppl){
+            return { textoBase: line, leyenda: "CONEXION CON EL " + ppl };
+        }
+    }
+    return { textoBase: line, leyenda: null };
+}
+
+// FUNCION PARA CREAR LINEA COLOREADA
+function createColoredLine(tagText, lineText, lineColor, leyendaPPL = null){
+    const div = document.createElement("div");
+    div.classList.add("line");
+    div.style.backgroundColor = leyendaPPL ? "lightgreen" : lineColor || "transparent";
+    div.style.color = "black";
+
+    if(tagText){
+        const tag = document.createElement("span");
+        tag.classList.add("tag");
+        tag.textContent = tagText;
+        div.appendChild(tag);
+    }
+
+    div.appendChild(document.createTextNode(lineText));
+
+    if(leyendaPPL){
+        const leyendaSpan = document.createElement("span");
+        leyendaSpan.classList.add("leyendaPPL");
+        leyendaSpan.textContent = " " + leyendaPPL;
+        div.appendChild(leyendaSpan);
+    }
+
+    return div;
+}
+
+// COLOREAR
+document.getElementById("btnColor").addEventListener("click", () => {
+    const text = logArea.innerText;
+    const lines = text.split("\n");
+    logArea.innerHTML = "";
+
+    lines.forEach(line => {
+
+        // Detectar ROAMING
+     // Detectar ROAMING WLAN
+if (line.includes("[WLAN]") && line.includes("access-point changed from") && line.includes("roamingcnt")) {
+
+    // Extraer los dos valores dBm
+    const regex = /\((-?\d+)\s*dBm\)/g;
+    const matches = [...line.matchAll(regex)];
+
+    if (matches.length >= 2) {
+        const dBm1 = parseInt(matches[0][1]);
+        const dBm2 = parseInt(matches[1][1]);
+
+        // Determinar estado
+        const estado1 = (dBm1 >= -65) ? "dentro de rango" : "fuera de rango";
+        const estado2 = (dBm2 >= -65) ? "dentro de rango" : "fuera de rango";
+
+        // Pintar cada valor dBm individualmente
+        let lineaMarcada = line
+            .replace(matches[0][0], `<span style="color:${dBm1 >= -65 ? "limegreen" : "red"}; font-weight:bold;">${matches[0][0]}</span>`)
+            .replace(matches[1][0], `<span style="color:${dBm2 >= -65 ? "limegreen" : "red"}; font-weight:bold;">${matches[1][0]}</span>`);
+
+        // Crear línea final con tag + estados
+        const span = document.createElement("span");
+        span.classList.add("line");
+        span.style.backgroundColor = "#ccffcc"; // verde claro suave
+
+        span.innerHTML =
+            `${lineaMarcada} ` +
+            `<span class="leyendaPPL">ROAMING: ${estado1} / ${estado2}</span>`;
+
+        logArea.appendChild(span);
+        return; // ← evitar que pase a otras reglas
+    }
+}
+
+
+        // Detecta y agrega PPL
+        const { textoBase, leyenda } = agregarPpl(line);
+        let coloredLine;
+
+        if (line.includes("::setVciRelay: DoIP - data only") || line.includes("::setVciRelay: all off")) {
+            coloredLine = createColoredLine("Datos encolados", textoBase, "mediumpurple", leyenda);
+        } else if (line.includes("COMPLETED")) {
+            coloredLine = createColoredLine("COMPLETED", textoBase, "limegreen", leyenda);
+        } else if (line.includes("vci-startupcnt: 2, possible reboot")) {
+            coloredLine = createColoredLine("Reboot de cargadores", textoBase, "orange", leyenda);
+        } else if (line.includes("ignition turned on")) {
+            coloredLine = createColoredLine("Se prende camioneta KL15", textoBase, "skyblue", leyenda);
+        } else if (line.includes("ignition turned off")) {
+            coloredLine = createColoredLine("Apaga la camioneta", textoBase, "pink", leyenda);
+        } else if (line.includes("Vci disconnected")) {
+            coloredLine = createColoredLine("VCI_DIS", textoBase, "aqua", leyenda);
+        } else if (line.includes("wlan-essid: off/any")) {
+            coloredLine = createColoredLine("Datos encolados", textoBase, "gray", leyenda);
+        } else if (line.includes("Client connection aborted")) {
+            coloredLine = createColoredLine("CLIENT_ABORT", textoBase, "indianred", leyenda);
+        } else if (line.includes("broker offline")) {
+            coloredLine = createColoredLine("Perdida de conexión con el broker-servidor", textoBase, "darkred", leyenda);
+        } else if (line.includes("DISCONNECTED")) {
+            coloredLine = createColoredLine("DISCONNECTED", textoBase, "orange", leyenda);
+        } else if (line.includes("VCI disconnected")) {
+            coloredLine = createColoredLine("Desconexion VCI", textoBase, "LightSalmon", leyenda);
+        } else if (line.includes("VCI connected")) {
+            coloredLine = createColoredLine("Conexion VCI", textoBase, "Teal", leyenda);
+        } else if (line.includes("client disconnected")) {
+            coloredLine = createColoredLine("client disconnected", textoBase, "Silver", leyenda);
+        } else if (line.includes("packet loss")) {
+            coloredLine = createColoredLine("Perdida de Paquetes", textoBase, "darkred", leyenda);
+        } else {
+            coloredLine = createColoredLine(null, textoBase, null, leyenda);
+        }
+
+        logArea.appendChild(coloredLine);
+    });
+});
+
+function showModalCopy() {
+    const modal = document.getElementById("modalCopy");
+    modal.style.display = "flex";
+
+    setTimeout(() => {
+        modal.style.display = "none";
+    }, 1500);
+}
+
+// CAPTURA
+document.getElementById("btnCapture").addEventListener("click", () => {
+    html2canvas(logArea).then(canvas => {
+        canvas.toBlob(blob => {
+            navigator.clipboard.write([
+                new ClipboardItem({ "image/png": blob })
+            ]).then(() => {
+                showModalCopy(); // ← Muestra mensaje “Imagen copiada”
+            }).catch(err => {
+                alert("Error copiando la imagen: " + err);
+            });
+        });
+    }).catch(err => {
+        alert("Error creando la captura");
+        console.error(err);
+    });
+});
+
+
+document.getElementById("btnDowload").addEventListener("click", () => {
+    const logArea = document.getElementById("logArea");
+
+    // Cargar html2canvas si no está cargado
+    if (typeof html2canvas === "undefined") {
+        const script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js";
+        script.onload = () => capturar();
+        document.body.appendChild(script);
+    } else {
+        capturar();
+    }
+
+    function capturar() {
+        html2canvas(logArea, {
+            backgroundColor: "#ffffff",
+            scale: 2   // 🔥 mejor calidad
+        }).then(canvas => {
+            const link = document.createElement("a");
+            link.download = "LOG.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        });
+    }
+});
+
+// LIMPIAR
+document.getElementById("btnClear").addEventListener("click", () => {
+    logArea.innerHTML = "";
+});
+
+
+</script>
+
+</body>
+</html>
