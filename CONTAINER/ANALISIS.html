@@ -428,11 +428,11 @@ if (line.includes("[WLAN]") && line.includes("access-point changed from") && lin
         if (line.includes("::setVciRelay: DoIP - data only") || line.includes("::setVciRelay: all off")) {
             coloredLine = createColoredLine("Datos encolados", textoBase, "mediumpurple", leyenda);
         } else if (line.includes("COMPLETED")) {
-            coloredLine = createColoredLine("COMPLETED", textoBase, "limegreen", leyenda);
+            coloredLine = createColoredLine("Autenticacion de RED Completada", textoBase, "limegreen", leyenda);
         } else if (line.includes("vci-startupcnt: 2, possible reboot")) {
-            coloredLine = createColoredLine("Reboot de cargadores", textoBase, "orange", leyenda);
+            coloredLine = createColoredLine("Reinicio ´pr Cargadores / Falla de Bateria", textoBase, "orange", leyenda);
         } else if (line.includes("ignition turned on")) {
-            coloredLine = createColoredLine("Se prende camioneta KL15", textoBase, "skyblue", leyenda);
+            coloredLine = createColoredLine("KL15(Encendido)", textoBase, "skyblue", leyenda);
         } else if (line.includes("ignition turned off")) {
             coloredLine = createColoredLine("Apaga la camioneta", textoBase, "pink", leyenda);
         } else if (line.includes("Vci disconnected")) {
@@ -446,13 +446,25 @@ if (line.includes("[WLAN]") && line.includes("access-point changed from") && lin
         } else if (line.includes("DISCONNECTED")) {
             coloredLine = createColoredLine("DISCONNECTED", textoBase, "orange", leyenda);
         } else if (line.includes("VCI disconnected")) {
-            coloredLine = createColoredLine("Desconexion VCI", textoBase, "LightSalmon", leyenda);
+            coloredLine = createColoredLine("Desconexion del SP", textoBase, "DarkSeaGreen", leyenda);
         } else if (line.includes("VCI connected")) {
-            coloredLine = createColoredLine("Conexion VCI", textoBase, "Teal", leyenda);
+            coloredLine = createColoredLine("Conexion del SP", textoBase, "Teal", leyenda);
         } else if (line.includes("client disconnected")) {
             coloredLine = createColoredLine("client disconnected", textoBase, "Silver", leyenda);
         } else if (line.includes("packet loss")) {
-            coloredLine = createColoredLine("Perdida de Paquetes", textoBase, "darkred", leyenda);
+            coloredLine = createColoredLine("Perdida de Paquetes / Problemas de Red", textoBase, "darkred", leyenda);
+        } else if (line.includes("vci-ident")) {
+            coloredLine = createColoredLine("VIN/Carroceria", textoBase, "Moccasin", leyenda);
+        } else if (line.includes("current access-point")) {
+            coloredLine = createColoredLine("Conexión / Cambio de AP", textoBase, "LightYellow", leyenda);
+        } else if (line.includes("broker online")) {
+            coloredLine = createColoredLine("Conexion con el Broker", textoBase, "LightGreen", leyenda);
+        } else if (line.includes("app-crash")) {
+            coloredLine = createColoredLine("Crasheo de la Aplicacion / Error de Aplicacion", textoBase, "Thistle", leyenda);
+        } else if (line.includes("time synchronized with ntp-server")) {
+            coloredLine = createColoredLine("Sincronización con el Servidor", textoBase, "LightCyan", leyenda);
+        } else if (line.includes("CT2_SEND_SEND_TELE timeout")) {
+            coloredLine = createColoredLine("Tiempo de Espera Superado", textoBase, "MediumAquamarine", leyenda);
         } else {
             coloredLine = createColoredLine(null, textoBase, null, leyenda);
         }
@@ -525,4 +537,5 @@ document.getElementById("btnClear").addEventListener("click", () => {
 
 </body>
 </html>
+
 
