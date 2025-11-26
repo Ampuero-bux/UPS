@@ -430,7 +430,7 @@ if (line.includes("[WLAN]") && line.includes("access-point changed from") && lin
         } else if (line.includes("COMPLETED")) {
             coloredLine = createColoredLine("Autenticacion de RED Completada", textoBase, "limegreen", leyenda);
         } else if (line.includes("vci-startupcnt: 2, possible reboot")) {
-            coloredLine = createColoredLine("Reinicio ´pr Cargadores / Falla de Bateria", textoBase, "orange", leyenda);
+            coloredLine = createColoredLine("Reinicio por Cargadores / Falla de Bateria", textoBase, "orange", leyenda);
         } else if (line.includes("ignition turned on")) {
             coloredLine = createColoredLine("KL15(Encendido)", textoBase, "skyblue", leyenda);
         } else if (line.includes("ignition turned off")) {
@@ -537,5 +537,6 @@ document.getElementById("btnClear").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
