@@ -55,16 +55,13 @@ Evidencias:
 const validaciones = {
   "LA ALERTA YA NO ESTA PRESENTE": "We proceed with the closure because the alert is no longer present. We attach an image of the monitoring.",
   "ALERTA VALIDACION CCIT": "The monitoring alarm is not present, we attach email with validation information of CCIT team",
-  "F7 Y REINICIA SIDIS": "We save traces and temporary files. We interrupted the test (F7). SIDIS application shuts down, runs again. We ask the user to perform another test. We observe that the Sidis application runs without failures",
   "F7 CONGELDA RESPONDE": "We save traces and temporary files. Screen frozen. Test interrupted. We ask the user to perform another test.",
-  "F7 CONGELDA REINICIA SIDIS": "We interrupted the test (F7). SIDIS app did not respond; we proceeded to restart it.",
-  "IDG TERATRON": "We save traces and temporary files. Applications were restarted (SIDIS and Teratron). Port 9999 is validated",
-  "PPL RESTABLECIDOS": "At the user's request, the PPL is restarted, the virtual machine is also restarted.",
-  "APLICACION SIDIS CERRADA": "We access the PPL and observe the sidis application is closed, we proceeded to open application SIDIS",
-  "LOGIN DE INICIO UPS_PROMO": "We connect to the PPL and see the home screen with the user UPS_PROMO; login validated.",
-  "VCI LOGS": "We share information from the VCI Logs you provide",
-  "F7 CONGELADA REINICIA SIDIS CAMBIO PPL": "We keep traces and temporary files. Test interrupted, SIDIS restarted, user asked to test on another PPL."
-};
+  "F7 CONGELDA REINICIA SIDIS": "We interrupted the test (F7). The SIDIS application did not respond; we proceeded to restart it, the system was restored, the user performed the test, the test ran without problems.",
+  "PRUEBA DINAMICA": "The dynamic test is performed successfully; an email is sent for validation.",
+  "ATORNILLADOS": "Screwing is done correctly and validations are sent by email.",
+  "RESET PASSWORD": "The password is successfully reset, and a validation email is sent.",
+  "NUEVO USUARIO": "The new user is created correctly, and a validation email is sent.",
+  };
 
 /* ---------- Textos combo4 (SHC) ---------- */
 const shc = {
