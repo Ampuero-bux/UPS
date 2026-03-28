@@ -171,7 +171,8 @@ btnCopiar.addEventListener("click", () => {
   let finalText = "";
 
   // Siempre Specialist / Area
-  finalText += `${pad(label12)} BACK DESK UPS\n`;
+  const valArea = comboArea.value || "BACK DESK UPS";
+finalText += `${pad(label12)} ${valArea}\n`;
 
   // Si NO está activado checkbox, incluir Origin/Source
   if (!chk1.checked) {
@@ -217,6 +218,10 @@ document.getElementById('btnAnalisisLogs').addEventListener('click', () => {
     // Redirige a otra página, por ejemplo grupos.html
     window.location.href = 'CONTAINER/ANALISIS.html';
 });
+document.getElementById('btnComandos').addEventListener('click', () => {
+    // Redirige a otra página, por ejemplo grupos.html
+    window.location.href = 'CONTAINER/Comandos.html';
+});
 
 /* ---------- navegación/placeholder ---------- */
 document.getElementById('btnAnalisis').addEventListener('click', ()=> alert('Abrir Analisis (placeholder)'));
@@ -224,4 +229,5 @@ document.getElementById('btnAnalisisLogs').addEventListener('click', ()=> alert(
 document.getElementById('btnGrupos').addEventListener('click', ()=> alert('Abrir Grupos & Tags (placeholder)'));
 document.getElementById('btnVci').addEventListener('click', ()=> alert('Abrir VCI (placeholder)'));
 document.getElementById('btnContactos').addEventListener('click', ()=> alert('Abrir Contactos (placeholder)'));
+document.getElementById('btnComandos').addEventListener('click', ()=> alert('Abrir Comandos (placeholder)'));
 

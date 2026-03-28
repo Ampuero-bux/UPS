@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UPS</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#020617;
+  color:#e2e8f0;
+  display:flex;
+}
+
+/* SIDEBAR */
+.sidebar{
+  width:220px;
+  background:#020617;
+  border-right:1px solid #1e293b;
+  padding:15px;
+}
+
+.sidebar h2{color:#22c55e;}
+
+.menu-item{
+  padding:10px;
+  cursor:pointer;
+  border-radius:6px;
+}
+.menu-item:hover{background:#0f172a;}
+
+/* MAIN */
+.main{flex:1;padding:20px;}
+
+.search{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:6px;
+  background:#0f172a;
+  color:white;
+  margin-bottom:20px;
+}
+
+.card{
+  background:#0f172a;
+  padding:15px;
+  margin-bottom:12px;
+  border-radius:8px;
+  border-left:4px solid #22c55e;
+}
+
+.title{color:#22c55e;font-weight:bold;}
+
+.cmd{
+  background:#020617;
+  padding:6px;
+  border-radius:4px;
+  font-family:monospace;
+  cursor:pointer;
+  display:inline-block;
+  margin-top:5px;
+}
+.cmd:hover{background:#111827;}
+
+.desc{font-size:12px;opacity:0.8;}
+
+.toast{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#22c55e;
+  color:#000;
+  padding:10px;
+  border-radius:6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+  <h2>🧠 Linux</h2>
+  <div class="menu-item" onclick="filtrar('todo')">Inicio</div>
+  <div class="menu-item" onclick="filtrar('cpu')">CPU</div>
+  <div class="menu-item" onclick="filtrar('disco')">Disco</div>
+  <div class="menu-item" onclick="filtrar('logs')">Logs</div>
+  <div class="menu-item" onclick="filtrar('red')">Red</div>
+
+  <button onclick="irInicio()" style="
+  
+  background: #9fbfae;
+    border: 4px solid #22c55e;
+    color: white;
+    padding:20px 50px;
+    text-align:center;
+    font-weight:700;
+    border-radius:6px;
+    cursor:pointer;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.12);
+">
+⬅ Regresar
+</button>
+</div>
+
+
+<div class="main">
+  <input id="buscador" class="search"
+    placeholder="Ej: grep error, servidor lento, listar archivos">
+  <div id="resultados"></div>
+</div>
+
+<script src="comandos.js"></script>
+</body>
+</html>
